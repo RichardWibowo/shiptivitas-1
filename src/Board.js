@@ -1,8 +1,9 @@
-import React from 'react';
-import Dragula from 'dragula';
-import 'dragula/dist/dragula.css';
-import Swimlane from './Swimlane';
-import './Board.css';
+import React from "react";
+// import Dragula from "dragula";
+import "dragula/dist/dragula.css";
+import Swimlane from "./Swimlane";
+import "./Board.css";
+import dragula from "dragula";
 
 export default class Board extends React.Component {
   constructor(props) {
@@ -21,6 +22,14 @@ export default class Board extends React.Component {
       complete: React.createRef(),
     }
   }
+  componentDidMount() {
+    const lanes = [];
+    for (const lane in this.swimlanes) {
+      lanes.push(this.swimlanes[lane].current);
+    }
+    dragula(lanes);
+  }
+
   getClients() {
     return [
       ['1','Stark, White and Abbott','Cloned Optimal Architecture', 'in-progress'],
@@ -50,6 +59,7 @@ export default class Board extends React.Component {
       status: companyDetails[3],
     }));
   }
+
   renderSwimlane(name, clients, ref) {
     return (
       <Swimlane name={name} clients={clients} dragulaRef={ref}/>
